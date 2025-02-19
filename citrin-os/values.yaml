@@ -1,79 +1,96 @@
-namespace:
-  name: testing
+# Values configuration for CitrinOS deployment
+# This file defines the configuration for multiple services: Directus, Citrine, RabbitMQ, and PostgreSQL
 
+# Namespace configuration
+namespace:
+  name: citrin-os # Kubernetes namespace for the entire application
+
+# Directus - Headless CMS configuration
 directus:
   name: directus
   image:
-    repository: aolishchuk/directus
-    tag: v-1.0.0
-  replicas: 1
-  port: 8055
+    repository: aolishchuk/directus # Docker image repository
+    tag: v-1.0.0 # Image version tag
+  replicas: 1 # Number of pod replicas
+  port: 8055 # Main service port
   livenessProbe:
-    path: /server/health
-    initialDelaySeconds: 15
-    periodSeconds: 15
-    timeoutSeconds: 15
-    failureThreshold: 3
+    # Health check configuration
+    path: /server/health # Health check endpoint
+    initialDelaySeconds: 15 # Time to wait before first probe
+    periodSeconds: 15 # Time between probes
+    timeoutSeconds: 15 # Probe timeout duration
+    failureThreshold: 3 # Number of failures before considering unhealthy
 
+# Citrine - Main application service
 citrine:
   name: citrine
   image:
-    repository: aolishchuk/citrine
-    tag: v-1.0.0
-  replicas: 1
+    repository: aolishchuk/citrine # Docker image repository
+    tag: v-1.0.0 # Image version tag
+  replicas: 1 # Number of pod replicas
   ports:
-  - port: 8080
-  - port: 8081
-  - port: 8082
-  - port: 8085
-  - port: 8443
-  - port: 8444
-  - port: 9229
+  # Multiple ports exposure
+  - port: 8080 # Main HTTP port
+  - port: 8081 # Additional service port
+  - port: 8082 # Additional service port
+  - port: 8085 # Additional service port
+  - port: 8443 # HTTPS port
+  - port: 8444 # Additional HTTPS port
+  - port: 9229 # Debug port
 
+# RabbitMQ - Message broker configuration
 rabbitmq:
   name: amqp-broker
   image:
-    repository: rabbitmq
-    tag: 3-management
-  replicas: 1
+    repository: rabbitmq # Official RabbitMQ image
+    tag: 3-management # Version with management interface
+  replicas: 1 # Number of pod replicas
   ports:
   - name: management
-    port: 15672
+    port: 15672 # Management interface port
   - name: amqp
-    port: 5672
+    port: 5672 # AMQP protocol port
   auth:
-    username: "guest"
-    password: "guest"
+    username: "guest" # Default RabbitMQ username
+    password: "guest" # Default RabbitMQ password
   persistence:
-    enabled: true
-    size: 1Gi
-    accessMode: ReadWriteOnce
+    enabled: true # Enable persistent storage
+    size: 1Gi # Storage size
+    accessMode: ReadWriteOnce # Storage access mode
   livenessProbe:
+    # Health check configuration
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 10
     failureThreshold: 3
 
+# PostgreSQL with PostGIS - Database configuration
 postgresql:
   name: ocpp-db
   image:
-    repository: citrineos/postgis
-    tag: v1.1.0
-  replicas: 1
-  port: 5432
+    repository: citrineos/postgis # Custom PostgreSQL image with PostGIS
+    tag: v1.1.0 # Image version
+  replicas: 1 # Number of pod replicas
+  port: 5432 # PostgreSQL port
   initContainer:
+    # Initialization container
     image: busybox
-    command: [ 'sh', '-c', 'mkdir -p /var/lib/postgresql/data/pgdata && chown -R 999:999 /var/lib/postgresql/data/pgdata' ]
+    command:
+    # Commands to set up data directory
+    - 'sh'
+    - '-c'
+    - 'mkdir -p /var/lib/postgresql/data/pgdata && chown -R 999:999 /var/lib/postgresql/data/pgdata'
   database:
-    name: "citrine"
-    user: "citrine"
-    password: "citrine"
-    pgdata: "/var/lib/postgresql/data/pgdata"
+    name: "citrine" # Database name
+    user: "citrine" # Database user
+    password: "citrine" # Database password
+    pgdata: "/var/lib/postgresql/data/pgdata" # Data directory path
   persistence:
-    enabled: true
-    size: 1Gi
-    accessMode: ReadWriteOnce
+    enabled: true # Enable persistent storage
+    size: 1Gi # Storage size
+    accessMode: ReadWriteOnce # Storage access mode
   livenessProbe:
+    # Health check configuration
     initialDelaySeconds: 5
     periodSeconds: 5
     timeoutSeconds: 10
