@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.citrine.name }}
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: {{ .Values.citrine.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.citrine.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.citrine.name }}
+    spec:
+      containers:
+      - name: {{ .Values.citrine.name }}
+        image: "{{ .Values.citrine.image.repository }}:{{ .Values.citrine.image.tag }}"
+        ports:
+        {{- range .Values.citrine.ports }}
+        - containerPort: {{ .port }}
+        {{- end }}

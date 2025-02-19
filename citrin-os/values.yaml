@@ -1,0 +1,80 @@
+namespace:
+  name: testing
+
+directus:
+  name: directus
+  image:
+    repository: aolishchuk/directus
+    tag: v-1.0.0
+  replicas: 1
+  port: 8055
+  livenessProbe:
+    path: /server/health
+    initialDelaySeconds: 15
+    periodSeconds: 15
+    timeoutSeconds: 15
+    failureThreshold: 3
+
+citrine:
+  name: citrine
+  image:
+    repository: aolishchuk/citrine
+    tag: v-1.0.0
+  replicas: 1
+  ports:
+  - port: 8080
+  - port: 8081
+  - port: 8082
+  - port: 8085
+  - port: 8443
+  - port: 8444
+  - port: 9229
+
+rabbitmq:
+  name: amqp-broker
+  image:
+    repository: rabbitmq
+    tag: 3-management
+  replicas: 1
+  ports:
+  - name: management
+    port: 15672
+  - name: amqp
+    port: 5672
+  auth:
+    username: "guest"
+    password: "guest"
+  persistence:
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 3
+
+postgresql:
+  name: ocpp-db
+  image:
+    repository: citrineos/postgis
+    tag: v1.1.0
+  replicas: 1
+  port: 5432
+  initContainer:
+    image: busybox
+    command: [ 'sh', '-c', 'mkdir -p /var/lib/postgresql/data/pgdata && chown -R 999:999 /var/lib/postgresql/data/pgdata' ]
+  database:
+    name: "citrine"
+    user: "citrine"
+    password: "citrine"
+    pgdata: "/var/lib/postgresql/data/pgdata"
+  persistence:
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
+  livenessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 10
+    failureThreshold: 5

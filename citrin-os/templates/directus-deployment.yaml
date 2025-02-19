@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.directus.name }}
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: {{ .Values.directus.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.directus.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.directus.name }}
+    spec:
+      containers:
+      - name: {{ .Values.directus.name }}
+        image: "{{ .Values.directus.image.repository }}:{{ .Values.directus.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.directus.port }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.directus.livenessProbe.path }}
+            port: {{ .Values.directus.port }}
+          initialDelaySeconds: {{ .Values.directus.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.directus.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.directus.livenessProbe.timeoutSeconds }}
+          failureThreshold: {{ .Values.directus.livenessProbe.failureThreshold }}
