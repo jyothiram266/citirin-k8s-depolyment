@@ -38,15 +38,27 @@ Wait Untill database up and running
 
 Once the necessary resources are created, install the Helm chart (citrin-os):
 
+for Dev
 ```
-helm install citrin-os ./citrin-os
+helm install dev-citrinos ./citrin-os --values ./citrin-os/values-dev.yaml
 ```
 
+for Prod
+
+```
+helm install prod-citrinos ./citrin-os --values ./citrin-os/values-prod.yaml
+```
 Confirm that the deployment is running successfully:
 
 ```
 helm list
 kubectl get pods -n citrin-os
+```
+
+you can upgrade the values and to reflect the changes run the following command accordingly
+
+```
+helm upgrade <HELM_NAME> ./citrin-os --values ./citrin-os/values-<dev-prod>.yaml 
 ```
 
 #### 4️⃣ Updating the Deployment
@@ -66,7 +78,7 @@ helm upgrade citrin-os ./citrin-os
 #### To remove the Helm release:
 
 ```
-helm uninstall citrin-os
+helm uninstall <HELM-CHART-NAME>
 ```
 To remove the additional Kubernetes resources:
 

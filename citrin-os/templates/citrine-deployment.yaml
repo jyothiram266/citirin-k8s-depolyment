@@ -20,3 +20,8 @@ spec:
         {{- range .Values.citrine.ports }}
         - containerPort: {{ .port }}
         {{- end }}
+        env:
+        {{- range $key, $value := .Values.citrine.environment }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{- end }}

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: amqp-broker
-  namespace: citrin-os
+  namespace: citrinos
 spec:
   replicas: 1
   selector:
@@ -43,7 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: amqp-broker
-  namespace: citrin-os
+  namespace: citrinos
 spec:
   selector:
     app: amqp-broker
@@ -59,7 +59,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: rabbitmq-pvc
-  namespace: citrin-os
+  namespace: citrinos
 spec:
   accessModes:
   - ReadWriteOnce
