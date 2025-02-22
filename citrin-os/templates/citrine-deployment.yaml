@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: {{ .Values.citrine.name }}
   namespace: {{ .Values.namespace.name }}
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-weight": "3"
 spec:
   replicas: {{ .Values.citrine.replicas }}
   selector:

@@ -59,33 +59,30 @@ citrine:
     CITRINEOS_UTIL_DIRECTUS_TOKEN: "-ssaT85n4S-wVD21LKOCDwvXN5PtnJc0" # Authentication token
 
 # RabbitMQ - Message broker service configuration
+
 rabbitmq:
-  name: amqp-broker # Service name
+  name: amqp-broker
   image:
-    repository: rabbitmq # Official RabbitMQ image
-    tag: 3-management # Version with management interface
-  replicas: 1 # Number of pod replicas
+    repository: rabbitmq
+    tag: 3-management
+  replicas: 1
   ports:
-  # Service ports
   - name: management
-    port: 15672 # Management UI port
+    port: 15672
   - name: amqp
-    port: 5672 # AMQP protocol port
+    port: 5672
   auth:
-    # Authentication configuration
-    username: "guest" # Default username
-    password: "guest" # Default password
+    username: "guest"
+    password: "guest"
   persistence:
-    # Storage configuration
-    enabled: true # Enable persistent storage
-    size: 1Gi # Storage size
-    accessMode: ReadWriteOnce # Storage access mode
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
   livenessProbe:
-    # Health check configuration
-    initialDelaySeconds: 10 # Delay before first health check
-    periodSeconds: 10 # Interval between checks
-    timeoutSeconds: 10 # Timeout for each check
-    failureThreshold: 3 # Number of failures before considering unhealthy
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 3
 
 # PostgreSQL - Database service configuration
 postgresql:
