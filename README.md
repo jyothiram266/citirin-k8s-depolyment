@@ -59,4 +59,4 @@ helm uninstall <HELM-CHART-NAME>
 ```
 
 # 📌 Notes
-- Deploy the Helm chart (citrin-os/) afterward to ensure dependent services are available. At intial stages Citirus , Diritus pod may go backoff because the DB and rabbitmq may take more time to get ready to run
+- Deploy the Helm chart (citrin-os/) afterward ensure dependents services are available. At intial stages Citirus , Diritus pods may go backoff state because of the DB and rabbitmq may take more time to get ready to run
