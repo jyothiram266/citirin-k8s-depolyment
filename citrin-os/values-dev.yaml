@@ -109,7 +109,7 @@ postgresql:
   persistence:
     # Storage configuration
     enabled: true # Enable persistent storage
-    size: 1Gi # Storage size
+    size: 100Mi # Storage size
     accessMode: ReadWriteOnce # Storage access mode
   livenessProbe:
     # Health check configuration
