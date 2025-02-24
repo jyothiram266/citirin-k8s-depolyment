@@ -15,7 +15,7 @@ directus:
   name: directus # Service name
   image:
     repository: aolishchuk/directus # Docker image location
-    tag: v-1.0.6s # Image version tag
+    tag: v2.0.0 # Image version tag
   replicas: 1 # Number of pod replicas
   port: 8055 # Service port number
   livenessProbe:
