@@ -4,7 +4,7 @@
 # Enable or disable monitoring stack
 
 monitoring:
-  enabled: false # Default is true
+  enabled: true # Default is true
 
 # Namespace configuration - Defines the Kubernetes namespace for all components
 namespace:
