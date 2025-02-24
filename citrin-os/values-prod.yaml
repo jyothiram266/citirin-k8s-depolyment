@@ -1,6 +1,10 @@
 # values-prod.yaml
 # Production environment configuration for CitrinOS
 # This file contains all necessary configurations for running CitrinOS in a production setting
+# Enable or disable monitoring stack
+
+monitoring:
+  enabled: false # Default is true
 
 # Namespace configuration - Defines the Kubernetes namespace for all components
 namespace:
@@ -117,3 +121,8 @@ postgresql:
     periodSeconds: 5 # Interval between checks
     timeoutSeconds: 10 # Timeout for each check
     failureThreshold: 5 # Number of failures before considering unhealthy
+
+# Grafana configuration
+grafana:
+  adminUser: "admin@citrineos.com" # Matching Directus admin email
+  adminPassword: "CitrineOS!"
