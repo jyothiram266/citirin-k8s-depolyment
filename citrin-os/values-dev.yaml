@@ -142,7 +142,7 @@ mqtt:
 manager:
   name: manager
   image:
-    repository: jyothiram266/everest
+    repository: aolishchuk/everest
     tag: v1.0.0
     pullPolicy: IfNotPresent
   service:
