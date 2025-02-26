@@ -4,7 +4,9 @@
 
 # Enable or disable monitoring stack
 monitoring:
-  enabled: true # Default is true
+  enabled: false # Default is true
+
+everest: true
 
 # Namespace configuration - Defines the Kubernetes namespace for all components
 namespace:
@@ -126,3 +128,38 @@ postgresql:
 grafana:
   adminUser: "admin@citrineos.com" # Matching Directus admin email
   adminPassword: "CitrineOS!"
+
+mqtt:
+  name: mqtt-server
+  image:
+    repository: ghcr.io/everest/everest-demo/mqtt-server
+    tag: 0.0.16
+    pullPolicy: IfNotPresent
+  service:
+    port: 1883
+    targetPort: 1883
+
+manager:
+  name: manager
+  image:
+    repository: jyothiram266/everest
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
+  service:
+    port: 8888
+    targetPort: 8888
+  env:
+    targetUrl: "http://citrine:8081"
+    mqttPort: "1883"
+
+nodered:
+  name: nodered
+  image:
+    repository: ghcr.io/everest/everest-demo/nodered
+    tag: 0.0.16
+    pullPolicy: IfNotPresent
+  service:
+    port: 1880
+    targetPort: 1880
+  env:
+    flows: "/config/config-sil-two-evse-flow.json"
