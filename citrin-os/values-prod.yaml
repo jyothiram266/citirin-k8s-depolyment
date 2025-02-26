@@ -1,10 +1,12 @@
 # values-prod.yaml
-# Production environment configuration for CitrinOS
-# This file contains all necessary configurations for running CitrinOS in a production setting
-# Enable or disable monitoring stack
+# Development environment configuration for CitrinOS
+# This file contains all necessary configurations for running CitrinOS in a development setting
 
+# Enable or disable monitoring stack
 monitoring:
-  enabled: true # Default is true
+  enabled: false # Default is true
+
+everest: true
 
 # Namespace configuration - Defines the Kubernetes namespace for all components
 namespace:
@@ -46,7 +48,7 @@ citrine:
   name: citrine # Service name
   image:
     repository: aolishchuk/citrine # Docker image location
-    tag: v2.0.0 # Image version tag
+    tag: v2.0.0
   replicas: 1 # Number of pod replicas
   ports:
   # Service ports configuration
@@ -113,7 +115,7 @@ postgresql:
   persistence:
     # Storage configuration
     enabled: true # Enable persistent storage
-    size: 1Gi # Storage size
+    size: 100Mi # Storage size
     accessMode: ReadWriteOnce # Storage access mode
   livenessProbe:
     # Health check configuration
@@ -126,3 +128,38 @@ postgresql:
 grafana:
   adminUser: "admin@citrineos.com" # Matching Directus admin email
   adminPassword: "CitrineOS!"
+
+mqtt:
+  name: mqtt-server
+  image:
+    repository: ghcr.io/everest/everest-demo/mqtt-server
+    tag: 0.0.16
+    pullPolicy: IfNotPresent
+  service:
+    port: 1883
+    targetPort: 1883
+
+manager:
+  name: manager
+  image:
+    repository: aolishchuk/everest
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
+  service:
+    port: 8888
+    targetPort: 8888
+  env:
+    targetUrl: "http://citrine:8081"
+    mqttPort: "1883"
+
+nodered:
+  name: nodered
+  image:
+    repository: ghcr.io/everest/everest-demo/nodered
+    tag: 0.0.16
+    pullPolicy: IfNotPresent
+  service:
+    port: 1880
+    targetPort: 1880
+  env:
+    flows: "/config/config-sil-two-evse-flow.json"
