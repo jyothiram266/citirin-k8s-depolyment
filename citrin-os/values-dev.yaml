@@ -133,7 +133,7 @@ mqtt:
   name: mqtt-server
   image:
     repository: ghcr.io/everest/everest-demo/mqtt-server
-    tag: 0.0.16
+    tag: 0.0.15
     pullPolicy: IfNotPresent
   service:
     port: 1883
@@ -143,7 +143,7 @@ manager:
   name: manager
   image:
     repository: aolishchuk/everest
-    tag: v1.0.0
+    tag: v1.0.1
     pullPolicy: IfNotPresent
   service:
     port: 8888
@@ -156,7 +156,7 @@ nodered:
   name: nodered
   image:
     repository: ghcr.io/everest/everest-demo/nodered
-    tag: 0.0.16
+    tag: 0.0.15
     pullPolicy: IfNotPresent
   service:
     port: 1880
