@@ -23,16 +23,6 @@ spec:
             name: directus
             port:
               number: 8055
-  - host: ""
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: hello-kubernetes-second
-            port:
-              number: 80
   - host: "everest.ev.vossmoos.com"
     http:
       paths:

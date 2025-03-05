@@ -4,7 +4,43 @@
 
 # Enable or disable monitoring stack
 monitoring:
-  enabled: false # Default is true
+  enabled: true # Master toggle to enable/disable monitoring stack (Prometheus, Grafana, Loki)
+
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    adminUser: "admin@citrineos.com"
+    adminPassword: "CitrineOS!"
+
+    # Pre-configured datasources for Prometheus & Loki
+    additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://monitoring-kube-prometheus-stack-prometheus:9090
+      isDefault: true
+      jsonData:
+        timeInterval: "5s"
+
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://monitoring-loki-stack:3100
+      jsonData:
+        maxLines: 1000
+
+  prometheus:
+    enabled: true
+
+  alertmanager:
+    enabled: true
+
+loki-stack:
+  loki:
+    persistence:
+      enabled: true
+  promtail:
+    enabled: true
 
 everest: true
 
@@ -123,11 +159,6 @@ postgresql:
     periodSeconds: 5 # Interval between checks
     timeoutSeconds: 10 # Timeout for each check
     failureThreshold: 5 # Number of failures before considering unhealthy
-
-# Grafana configuration
-grafana:
-  adminUser: "admin@citrineos.com" # Matching Directus admin email
-  adminPassword: "CitrineOS!"
 
 mqtt:
   name: mqtt-server
