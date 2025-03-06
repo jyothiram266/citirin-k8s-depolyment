@@ -42,13 +42,23 @@ you can upgrade the values and to reflect the changes run the following command 
 ```
 helm upgrade <HELM_NAME> ./citrin-os --values ./citrin-os/values-<dev-prod>.yaml 
 ```
+#### 🔗 Enable Loki for Logging
+To deploy Loki (along with Promtail and Grafana, if needed), run:
+
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install loki grafana/loki-stack
+```
+✅ The citrin-os Helm chart automatically configures the Loki datasource in Grafana if you're using Grafana from this stack — because it's pre-defined in the values-dev.yaml and values-prod.yaml.
 
 #### 2. Updating the Deployment
+
 If any changes are made in values-dev.yaml or values-prod.yaml
 To upgrade the Helm release with new configurations:
 
 ```
-helm upgrade citrin-os ./citrin-os
+helm upgrade <HELM_NAME> ./citrin-os --values ./citrin-os/values-<dev-prod>.yaml 
 ```
 
 ## 5️⃣ Cleanup the Deployment
